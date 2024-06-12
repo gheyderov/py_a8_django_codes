@@ -5,5 +5,7 @@ from django.shortcuts import render
 def contact(request):
     return render(request, 'contact1.html')
 
+# test comment
+
 def home(request):
     return render(request, 'index.html')
