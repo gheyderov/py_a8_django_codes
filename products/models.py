@@ -1,5 +1,6 @@
 from django.db import models
-from accounts.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your models here.
 
@@ -35,7 +36,7 @@ class Recipe(AbstractModel):
     description = models.TextField('description')
     category = models.ForeignKey('Category', related_name='recipes', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name='recipes')
-    # user = models.ForeignKey('User', related_name='recipes', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='recipes', on_delete=models.CASCADE)
     
     def __str__(self) -> str:
         return self.title
