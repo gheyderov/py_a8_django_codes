@@ -40,9 +40,10 @@ class Recipe(AbstractModel):
     category = models.ForeignKey('Category', related_name='recipes', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name='recipes')
     author = models.ForeignKey(User, related_name='recipes', on_delete=models.CASCADE)
-
+    
     def __str__(self) -> str:
         return self.title
+    
     
 
 class RecipeImage(AbstractModel):
