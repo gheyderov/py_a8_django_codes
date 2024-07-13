@@ -9,13 +9,19 @@
         <div class="container">
             <div class="row block-9 justify-content-center">
                 <div class="col-md-6 order-md-last d-flex">
-                    <form action="#" class="bg-light p-5 contact-form">
+                    <form action="" class="bg-light p-5 contact-form" method="post">
+                        {% csrf_token %}
+                        {% include 'includes/messages.html' %}
                         <a class="navbar-brand center" href="#">Stories<span>.</span></a>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Username">
+                            {{form.username}}
+                            {{form.username.errors}}
+                            <!-- <input type="text" class="form-control" placeholder="Username"> -->
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Password">
+                            {{form.password}}
+                            {{form.password.errors}}
+                            <!-- <input type="text" class="form-control" placeholder="Password"> -->
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Login" class="btn btn-primary py-3 px-5">
