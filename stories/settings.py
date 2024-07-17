@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'order',
-    'blog'
+    'blog',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -140,9 +141,30 @@ STATIC_URL = "static/"
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
+SOCIAL_AUTH_FACEBOOK_KEY = 1020099733037627        # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '2ba8aacdde082b756ed782014b836128'  # App Secret
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
+EMAIL_BACKEND = 'stories.email_backends.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'g.heyderov@gmail.com'
+EMAIL_HOST_PASSWORD = 'ghiw adbp xiyf spzj'
+EMAIL_PORT = 587
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
