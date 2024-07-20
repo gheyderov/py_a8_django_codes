@@ -33,11 +33,11 @@ class ContactForm(forms.ModelForm):
             })
         }
 
-    def clean(self):
-        value = self.cleaned_data['email']
-        if not value.endswith('gmail.com'):
-            raise forms.ValidationError('Email must be gmail.com!')
-        return value
+    # def clean(self):
+    #     value = self.cleaned_data['email']
+    #     if not value.endswith('gmail.com'):
+    #         raise forms.ValidationError('Email must be gmail.com!')
+    #     return value
     
     # def clean_email(self):
     #     value = self.cleaned_data['email']
@@ -45,7 +45,7 @@ class ContactForm(forms.ModelForm):
     #         raise forms.ValidationError('Email must be gmail.com!')
     #     return value
     
-    def clean_name(self):
-        value = self.cleaned_data['name']
-        name = value.upper()
-        return name
+    # def clean_name(self):
+    #     value = self.cleaned_data['name']
+    #     name = value.upper()
+    #     return name

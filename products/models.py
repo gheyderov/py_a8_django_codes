@@ -54,6 +54,15 @@ class RecipeImage(AbstractModel):
         return self.recipe.title
     
 
+class RecipeReview(AbstractModel):
+    message = models.TextField()
+    user = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
+    recipe = models.ForeignKey('Recipe', related_name='reviews', on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.user.username} / {self.recipe.title}'
+    
+
 class ProductType(AbstractModel):
     title = models.CharField(max_length=100)
 
