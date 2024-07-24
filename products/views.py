@@ -1,15 +1,34 @@
 from typing import Any
+from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import Recipe, Category, Tag
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic.edit import FormMixin
-from products.forms import ReviewForm
+from products.forms import ReviewForm, SubReviewForm, RecipeCreateForm
 
 
 # Create your views here.
+
+class RecipeCreateView(CreateView):
+    template_name = 'create_story.html'
+    model = Recipe
+    form_class = RecipeCreateForm
+    success_url = reverse_lazy('homepage')
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class RecipeUpdateView(UpdateView):
+    template_name = 'create_story.html'
+    form_class = RecipeCreateForm
+    model = Recipe
+    success_url = reverse_lazy('homepage')
+
 
 class RecipeListView(ListView):
     model = Recipe
@@ -35,6 +54,7 @@ class RecipeDetailView(FormMixin, DetailView):
     template_name = 'single.html'
     model = Recipe
     form_class = ReviewForm
+    sub_form = SubReviewForm
     # success_url = reverse_lazy('product_detail')
 
     def get_success_url(self) -> str:
@@ -47,6 +67,8 @@ class RecipeDetailView(FormMixin, DetailView):
         return context
     
     def post(self, request, *args, **kwargs):
+        if 'parent' in self.request.POST:
+            form = self.sub_form
         form = self.get_form()
         self.object = self.get_object()
         if form.is_valid():
@@ -55,6 +77,7 @@ class RecipeDetailView(FormMixin, DetailView):
             return self.form_invalid(form)
         
     def form_valid(self, form: Any) -> HttpResponse:
+        form.instance.parent_id = self.request.POST.get('parent', None)
         form.instance.user = self.request.user
         form.instance.recipe = self.object
         form.save()

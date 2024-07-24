@@ -51,6 +51,7 @@
                     <h3 class="mb-5">6 Comments</h3>
                     <ul class="comment-list">
                         {% for review in recipe.reviews.all %}
+                        {% if not review.parent %}
                         <li class="comment">
                             <div class="vcard bio">
                                 <img src="{{review.user.get_image}}" alt="Image placeholder">
@@ -59,9 +60,34 @@
                                 <h3>{{review.user.get_full_name}}</h3>
                                 <div class="meta">{{review.created_at}}</div>
                                 <p>{{review.message}}</p>
-                                <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                                <p><a href="" id="reply_button" class="reply">Reply</a></p>
+                                <form action="" method="post" class="show" id="subform">
+                                    {% csrf_token %}
+                                    <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
+                                     {{form.message}}
+                                    <input type="hidden" name="parent" value="{{review.id}}">
+                                    <input type="submit" value="Send">
+                                </form>
                             </div>
+                            {% for child in review.children.all %}
+                            <ul class="children">
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="{{ child.user.get_image }}" alt="Image placeholder">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>{{ child.user.get_full_name }}</h3>
+                                        <div class="meta">{{child.created_at}}</div>
+                                        <p>{{child.message}}</p>
+                                        <p><a href="#" class="reply">Reply</a></p>
+                                    </div>
+
+
+                                </li>
+                            </ul>
+                            {% endfor %}
                         </li>
+                        {% endif %}
                         {% endfor %}
                    
                     </ul>
