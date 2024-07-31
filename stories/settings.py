@@ -55,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'stories.middleware.GetUserIpMiddleware',
+    'stories.middleware.BlockUserIpAddress',
 ]
 
 ROOT_URLCONF = 'stories.urls'

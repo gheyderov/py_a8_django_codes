@@ -7,7 +7,8 @@ from products.models import (
     Property,
     PropertyValue,
     RecipeImage,
-    RecipeReview
+    RecipeReview,
+    BlockedIps
 )
 
 # Register your models here.
@@ -19,6 +20,7 @@ admin.site.register(Property)
 admin.site.register(ProductType)
 admin.site.register(RecipeImage)
 admin.site.register(RecipeReview)
+admin.site.register(BlockedIps)
 
 
 class RecipeImageInline(admin.TabularInline):

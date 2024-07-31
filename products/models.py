@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 
 User = get_user_model()
 
@@ -44,9 +45,17 @@ class Recipe(AbstractModel):
     )
     tags = models.ManyToManyField("Tag", related_name="recipes")
     author = models.ForeignKey(User, related_name="recipes", on_delete=models.CASCADE)
+    slug = models.SlugField('slug', null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse_lazy('product_detail', kwargs = {'slug' : self.slug})
+    
+    class Meta:
+        ordering = ['-created_at']
+        
 
 
 class RecipeImage(AbstractModel):
@@ -98,3 +107,7 @@ class PropertyValue(AbstractModel):
 
     def __str__(self) -> str:
         return self.title
+
+
+class BlockedIps(AbstractModel):
+    ip_address = models.GenericIPAddressField('ip_address')
