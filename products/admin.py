@@ -10,10 +10,10 @@ from products.models import (
     RecipeReview,
     BlockedIps
 )
+from modeltranslation.admin import TranslationAdmin
 
 # Register your models here.
 
-admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(PropertyValue)
 admin.site.register(Property)
@@ -26,6 +26,9 @@ admin.site.register(BlockedIps)
 class RecipeImageInline(admin.TabularInline):
     model = RecipeImage
 
+@admin.register(Category)
+class CategoryAdmin(TranslationAdmin):
+    fields = 'title',
 
 @admin.register(Recipe)
 class RecipeModelAdmin(admin.ModelAdmin):

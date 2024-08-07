@@ -8,6 +8,10 @@ class User(AbstractUser):
     photo = models.ImageField('photo', upload_to='user_profiles/', null=True, blank=True)
     bio = models.CharField('bio', max_length=255, null=True, blank=True)
     ips = ArrayField(models.GenericIPAddressField(), null=True, blank=True)
+    email = models.EmailField(("email address"), blank=True, unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = 'username',
 
     def get_image(self):
         if self.photo:

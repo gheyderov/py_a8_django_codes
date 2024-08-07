@@ -15,11 +15,17 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.views import LoginView
 # Create your views here.
 
 
+class UserLoginView(LoginView):
+    template_name = 'login.html'
+    form_class = LoginForm
+
+
 def login(request):
-    next = request.GET.get('next', reverse_lazy('homepage'))
+    next = request.GET.get('next', reverse_lazy('home'))
     form = LoginForm()
     if request.method == "POST":
         form = LoginForm(data=request.POST)

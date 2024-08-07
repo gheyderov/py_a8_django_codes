@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -16,7 +17,7 @@ class RecipeCreateView(CreateView):
     template_name = 'create_story.html'
     model = Recipe
     form_class = RecipeCreateForm
-    success_url = reverse_lazy('homepage')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         form.instance.author = self.request.user
@@ -27,13 +28,28 @@ class RecipeUpdateView(UpdateView):
     template_name = 'create_story.html'
     form_class = RecipeCreateForm
     model = Recipe
-    success_url = reverse_lazy('homepage')
+    success_url = reverse_lazy('home')
 
 
 class RecipeListView(ListView):
-    model = Recipe
+    model = Recipe # Recipe.objects.all()
     template_name = 'recipes.html'
     paginate_by = 2
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        category = self.request.GET.get('category')
+        tag = self.request.GET.get('tag')
+        search = self.request.GET.get('searched')
+        if category:
+            queryset = queryset.filter(category__id = category)
+        if tag:
+            queryset = queryset.filter(tags__id = tag)
+        if tag and category:
+            queryset = queryset.filter(tags__id = tag, category__id = category)
+        if search:
+            queryset = queryset.filter(title__icontains = search)
+        return queryset
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
