@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'products',
     'order',
     'blog',
-    'social_django'
+    'social_django',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

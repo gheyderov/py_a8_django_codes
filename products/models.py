@@ -50,6 +50,9 @@ class Recipe(AbstractModel):
     def __str__(self) -> str:
         return self.title
     
+    def author_name(self):
+        return self.author.get_full_name()
+
     def get_absolute_url(self):
         return reverse_lazy('product_detail', kwargs = {'slug' : self.slug})
     
