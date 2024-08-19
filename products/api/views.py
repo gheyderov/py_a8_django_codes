@@ -24,10 +24,15 @@ def categories(request):
 
 
 
-def tags(request):
-    tag_lists = Tag.objects.all()
-    serializer = TagSerializer(tag_lists, many = True)
-    return JsonResponse(serializer.data, safe = False)
+# def tags(request):
+#     tag_lists = Tag.objects.all()
+#     serializer = TagSerializer(tag_lists, many = True)
+#     return JsonResponse(serializer.data, safe = False)
+
+
+class CategoryAPIView(ListAPIView):
+    serializer_class = TagSerializer
+    queryset = Tag.objects.all()
 
 
 class RecipeAPIView(ListCreateAPIView):
