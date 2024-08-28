@@ -30,7 +30,7 @@ def categories(request):
 #     return JsonResponse(serializer.data, safe = False)
 
 
-class CategoryAPIView(ListAPIView):
+class TagAPIView(ListAPIView):
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
 

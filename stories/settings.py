@@ -49,11 +49,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'drf_spectacular',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -65,6 +67,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'stories.urls'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
