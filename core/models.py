@@ -9,3 +9,6 @@ class Contact(models.Model):
     subject = models.CharField('subject', max_length=200)
     message = models.TextField('message')
 
+
+class Subscribe(models.Model):
+    email = models.EmailField('email', max_length=200)
