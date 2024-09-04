@@ -21,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2-tk@re3x=&96g@9!7=u6yt7e20l2%9^h(7f3ko52oc&akej#+'
+SECRET_KEY = '2njn1_9f4s5@a0@j8n9b#0l%3u!4u1un28fu3a^0a*)q_g&y&&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=1))
+PROD = not DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -96,10 +97,11 @@ WSGI_APPLICATION = 'stories.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "stories",
-        "PASSWORD": "12345",
-        "USER": 'tech',
-        "HOST": 'localhost'
+        "NAME": os.environ.get("POSTGRES_DB", "db_name"),
+        "USER": os.environ.get("POSTGRES_USER", "user_name"),
+        "PORT": os.environ.get("POSTGRES_PORT", 5432),
+        "HOST": os.environ.get("POSTGRES_HOST", "135.181.150.8"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "123"),
     }
 }
 
@@ -159,9 +161,10 @@ AUTH_USER_MODEL = 'accounts.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
-
-STATICFILES_DIRS = [BASE_DIR / "static"]
+if PROD:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+else:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.linkedin.LinkedinOAuth2',
@@ -220,3 +223,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
+CSRF_TRUSTED_ORIGINS = ["https://*.nordincom.com", "https://nordincom.com"]
